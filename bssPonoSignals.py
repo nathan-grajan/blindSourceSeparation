@@ -111,11 +111,13 @@ def plot_signal(data: np.ndarray, begin_offset_sec: float, duration: float, filt
     title = 'Filtered Data' if filtered else 'Raw Data'
     ax.plot(time_vector, data)
     ax.set_title(title)
+    ax.set_ylabel('Amplitude')
+    ax.set_xlabel('Time (s)')
     plt.tight_layout()
     plt.show()
 
 def plot_separations(component_data: np.ndarray, filtered: bool, component: bool, sec_to_plot:Optional[float] = 4.0) -> None:
-    # component_data is 2d array, each row is a separated signal
+    # component_data is 2d array, each column is a separated signal
 
 
     # Plot the raw and filtered data
@@ -166,11 +168,9 @@ reconstructed, mixing_matrix, ica_raw = separate(raw_samples.T)
 reconstructed_filtered, mixing_matrix_filtered, ica_filtered = separate(filtered_samples.T)
 
 # Plot the components
-plot_separations(reconstructed,filtered=False, component=True)
-plot_separations(reconstructed_filtered,filtered=True, component=True)
+plot_separations(reconstructed,filtered=False, component=True, sec_to_plot=4.0)
+plot_separations(reconstructed_filtered,filtered=True, component=True, sec_to_plot=4.0)
 
-# %%
-# apply transformation to the entire signal
-full_dataset_transformed = ica_raw.transform(raw_data_chan_two.reshape(-1,1))
+
 
 # %%
